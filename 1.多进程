@@ -1,0 +1,21 @@
+pcntl_fork
+<?php
+date_default_timezone_set("asia/shanghai");
+
+$pid = pcntl_fork();
+if ($pid==-1) {
+    die('fork失败');
+} else if ($pid==0) {
+    //子进程执行
+    $sec = 10;
+    echo date('H:i:s') .'| 我是子进程 (PID:' . posix_getpid() . ')' . ',我休眠' . $sec . '秒后结束' . PHP_EOL;
+    
+} else if ($pid>0) {
+    //父进程执行
+    $sec = 15;
+    echo date('H:i:s') . '| 我是父进程 (PID:' . posix_getpid() . '),我创建了一个子进程 (PID:' . $pid . ')' . ',我休眠' . $sec . '秒后结束' . PHP_EOL;
+}
+sleep($sec);
+echo date('H:i:s') . '| 进程(PID:'.posix_getpid().')结束' . PHP_EOL;
+exit(0);
+?>
